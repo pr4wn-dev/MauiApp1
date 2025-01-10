@@ -9,11 +9,11 @@ namespace MauiApp1.ViewModels
 {
     public partial class LoginPageViewModel : ObservableObject
     {
-        private string _username;
-        public string Username
+        private string _useremail;
+        public string UserEmail
         {
-            get => _username;
-            set => SetProperty(ref _username, value);
+            get => _useremail;
+            set => SetProperty(ref _useremail, value);
         }
 
         private string _password;
@@ -39,7 +39,7 @@ namespace MauiApp1.ViewModels
 
         private async Task ExecuteLoginCommand()
         {
-            if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
+            if (string.IsNullOrWhiteSpace(UserEmail) || string.IsNullOrWhiteSpace(Password))
             {
                 StatusMessage = "Please enter both username and password.";
                 return;
@@ -48,7 +48,7 @@ namespace MauiApp1.ViewModels
             StatusMessage = "Logging in...";
 
             var client = new HttpClient();
-            var content = new StringContent($"username={Uri.EscapeDataString(Username)}&password={Password}&login_submit=1", Encoding.UTF8, "application/x-www-form-urlencoded");
+            var content = new StringContent($"email={Uri.EscapeDataString(UserEmail)}&password={Password}&login_submit=1", Encoding.UTF8, "application/x-www-form-urlencoded");
 
             try
             {
@@ -58,7 +58,7 @@ namespace MauiApp1.ViewModels
                 {
                     var result = await response.Content.ReadAsStringAsync();
                     // Adjust this based on what your server returns for success/failure
-                    if (result.Contains("Login successful"))
+                    if (result.Contains("Logout"))
                     {
                         StatusMessage = "Login successful!";
                         // You might want to navigate to another page or update app state here
