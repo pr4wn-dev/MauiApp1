@@ -5,15 +5,16 @@ using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Maui.Controls;
 
+
 namespace MauiApp1.ViewModels
 {
     public partial class LoginPageViewModel : ObservableObject
     {
-        private string _useremail;
+        private string _userEmail;
         public string UserEmail
         {
-            get => _useremail;
-            set => SetProperty(ref _useremail, value);
+            get => _userEmail;
+            set => SetProperty(ref _userEmail, value);
         }
 
         private string _password;
@@ -31,12 +32,19 @@ namespace MauiApp1.ViewModels
         }
 
         public ICommand LoginCommand { get; private set; }
+        public ICommand RegisterCommand { get; }
 
         public LoginPageViewModel()
         {
             LoginCommand = new Command(async () => await ExecuteLoginCommand());
+            RegisterCommand = new Command(ExecuteRegisterCommand);
         }
-
+        private async void ExecuteRegisterCommand()
+        {
+            // Handle the registration logic here
+            // For example:
+            await Shell.Current.GoToAsync(nameof(RegisterPage));
+        }
         private async Task ExecuteLoginCommand()
         {
             if (string.IsNullOrWhiteSpace(UserEmail) || string.IsNullOrWhiteSpace(Password))
